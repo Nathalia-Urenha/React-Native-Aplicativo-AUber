@@ -2,11 +2,83 @@ import React, { Component } from "react";
 import {View, Text, StyleSheet, TouchableWithoutFeedback, Animated, TouchableOpacity} from 'react-native';
 
 export default class FabButton extends Component{
+
+    animation = new Animated.Value(0);
+
+    toggleMenu = () =>{
+        const toValue = this.open ? 0 : 1
+
+        Animated.spring(this.animation, {
+            toValue,
+            friction: 5,
+            useNativeDriver: true 
+        }).start();
+
+        this.open = !this.open;
+
+
+        }
+
     render(){
+
+        const passearStyle = {
+            transform:[
+                {
+                    scale: this.animation
+                },
+                {
+                    translateY: this.animation.interpolate({
+                        inputRange:[0, 1],
+                        outputRange: [0, -70]
+                    })
+                }
+            ]
+        }
+
+        const chamarStyle = {
+            transform:[
+                {
+                    scale: this.animation
+                },
+                {
+                    translateY: this.animation.interpolate({
+                        inputRange:[0, 1],
+                        outputRange: [0, -140]
+                    })
+                }
+            ]
+        }
+
+        const rotation = {
+            transform: [
+                {
+                    rotate: this.animation.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ["0deg", "45deg"]
+                    })
+                }
+            ]
+        }
         return(
             <View style={[styles.container, this.props.style]}>
-               <TouchableWithoutFeedback>
-                    <Animated.View style={[styles.button]}>
+               <TouchableWithoutFeedback onPress={()=> {}}>
+                    <Animated.View style={[styles.button, styles.submenu, chamarStyle]}>
+                        <TouchableOpacity name='chamar' size={20} color="#FFF">
+                            <Text style={{fontSize: 30}}>C</Text>
+                        </TouchableOpacity>
+                    </Animated.View> 
+                </TouchableWithoutFeedback>
+
+                <TouchableWithoutFeedback onPress={()=> {}}>
+                    <Animated.View style={[styles.button, styles.submenu, passearStyle]}>
+                        <TouchableOpacity name='passear' size={20} color="#FFF">
+                            <Text style={{fontSize: 30}}>P</Text>
+                        </TouchableOpacity>
+                    </Animated.View> 
+                </TouchableWithoutFeedback>
+
+                <TouchableWithoutFeedback onPress={this.toggleMenu}>
+                    <Animated.View style={[styles.button, styles.menu, rotation]}>
                         <TouchableOpacity name='plus' size={24} color="#FFF">
                             <Text style={{fontSize: 30}}>+</Text>
                         </TouchableOpacity>
@@ -22,7 +94,6 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
     button:{
-        backgroundColor: '#fe76a8',
         position: 'absolute',
         width: 60,
         height: 60,
@@ -36,4 +107,13 @@ const styles = StyleSheet.create({
             height: 10,
         }
     },
+    menu:{
+        backgroundColor: '#fe76a8'
+    },
+    submenu:{
+        width: 48,
+        height: 48,
+        borderRadius: 48/2,
+        backgroundColor: '#fe76a8',
+    }
 });

@@ -6,10 +6,18 @@ import {
     TouchableOpacity,
     Text,
     StyleSheet, 
-    Image
+    Image, 
+    Pressable
 } from 'react-native'
 
-export default function Cadastro(){
+export default function Cadastro({navigation}){
+
+  const Login = () =>{
+    navigation.reset({
+      index: 0,
+      routes: [{name: "Login"}]
+    });
+  }
     return(
         <KeyboardAvoidingView style={styles.background}>
             <View style={styles.containerLogo}>
@@ -38,7 +46,10 @@ export default function Cadastro(){
                 <TouchableOpacity style={styles.btnSubmit}>
                     <Text style={styles.textSubmit}>Cadastrar</Text>
                 </TouchableOpacity>
-                <Text style={styles.texto}>Já possui conta? Login</Text>
+                <Pressable onPress={Login}>
+                  <Text style={styles.texto}>Já possui conta? Login</Text>
+                </Pressable>
+    
             </View>
             </KeyboardAvoidingView>
     );

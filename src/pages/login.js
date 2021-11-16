@@ -6,15 +6,33 @@ import {
   TextInput, 
   TouchableOpacity, 
   Text, 
-  StyleSheet, Animated
+  StyleSheet, Animated,
+  Pressable
 
 } from 'react-native';
 
-export default function Login() {
+export default function Login({navigation}) {
+
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+
+  const entrar = () =>{
+    navigation.reset({
+      index: 0,
+      routes: [{name: "Home"}]
+    });
+  }
+  const cadastrar = () =>{
+    navigation.reset({
+      index: 0,
+      routes: [{name: "Cadastro"}]
+    });
+  }
 
   const [offset] = useState(new Animated.ValueXY({x: 0, y:95}));
   const[opacity] = useState(new Animated.Value(0));
-  const [logo] = useState(new Animated.ValueXY({x: 130, y: 130}));
+ 
+
   useEffect(()=>{
     Animated.parallel([
       Animated.spring(offset.y, {
@@ -35,7 +53,8 @@ export default function Login() {
     <KeyboardAvoidingView style={styles.background}>
       <View style={styles.containerLogo}>
         <Image 
-        source={require('../assets/logo.png')}/>
+        source={require('../assets/logo.png')}
+        />
         <Text style={styles.title}>AUber</Text>
       </View>
       <Animated.View 
@@ -52,20 +71,27 @@ export default function Login() {
         style={styles.input}
         placeholder="E-mail"
         autoCorrect={false}
-        onChangeText={()=>{}}
+        onChangeText={value=>setEmail(value)}
+        keyboardType="email-address"
         />
         <TextInput
         style={styles.input}
         placeholder="Senha"
         autoCorrect={false}
-        onChangeText={()=>{}}
+        onChangeText={value=>setPassword(value)}
+        secureTextEntry={true}
         />
-        <TouchableOpacity style={styles.btnSubmit}>
+        <TouchableOpacity 
+        style={styles.btnSubmit}
+        onPress={entrar}
+        
+        >
           <Text style={styles.textSubmit}>Acessar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnRegister}>
+        <Pressable onPress={cadastrar}>
           <Text style={styles.textRegister}>Criar conta gratuita</Text>
-        </TouchableOpacity>
+        </Pressable>
+
       </Animated.View>
     </KeyboardAvoidingView>
   );
@@ -116,7 +142,8 @@ const styles = StyleSheet.create({
   },
   textRegister:{
     color: '#fff',
-    fontSize: 15
+    fontSize: 15,
+    padding: 20
   },
   title:{
     color: '#fe76a8',

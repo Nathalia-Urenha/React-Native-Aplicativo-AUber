@@ -1,7 +1,20 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
 
-export default function Inicio(){
+export default function Inicio({navigation}){
+  const acessar = () =>{
+    navigation.reset({
+      index: 0,
+      routes: [{name: "Login"}]
+    });
+  }
+
+  const cadastrar = () =>{
+    navigation.reset({
+      index: 0,
+      routes: [{name: "Cadastro"}]
+    });
+  }
     return(
         <KeyboardAvoidingView style={styles.background}>
             <View>
@@ -10,11 +23,13 @@ export default function Inicio(){
                 <Text style={styles.title}>AUber</Text>
             </View>
             <View style={styles.container}>
-            <TouchableOpacity style={styles.btnSubmit}>
+            <TouchableOpacity style={styles.btnSubmit} onPress={acessar}>
                 <Text style={styles.textSubmit}>Acessar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnRegister}>
-                <Text style={styles.textRegister}>Cadastrar</Text>
+            <TouchableOpacity style={styles.btnRegister} onPress={cadastrar}>
+                <Text  style={styles.textRegister}>
+                  Cadastrar
+                </Text>
             </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
