@@ -7,7 +7,8 @@ import {
   TouchableOpacity, 
   Text, 
   StyleSheet, Animated,
-  Pressable
+  Pressable,
+  AppRegistry
 
 } from 'react-native';
 
@@ -28,6 +29,25 @@ export default function Login({navigation}) {
       routes: [{name: "Cadastro"}]
     });
   }
+
+
+  // handleSignClick = aync () => {
+  //   if(email != '' && password != ''){
+
+  //     console.log("campos preenchidos");
+  //     let res = json = await Api.signIn(email, password);
+  //     if(json.token){
+  //       alert("Deu certo")
+
+  //     }else{
+  //       alert("E-mail e/senha errados!");
+  //     }
+
+  //   }else{
+  //     alert("Preencha os campos!")
+  //   }
+  // }
+
 
   const [offset] = useState(new Animated.ValueXY({x: 0, y:95}));
   const[opacity] = useState(new Animated.Value(0));
@@ -89,7 +109,7 @@ export default function Login({navigation}) {
           <Text style={styles.textSubmit}>Acessar</Text>
         </TouchableOpacity>
         <Pressable onPress={cadastrar}>
-          <Text style={styles.textRegister}>Criar conta gratuita</Text>
+          <Text style={{color:"#000"}, {padding:10}}>Criar conta gratuita</Text>
         </Pressable>
 
       </Animated.View>
@@ -102,7 +122,7 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#191919'
+    backgroundColor: '#FFE4E1'
   },
   containerLogo:{
     flex:1,

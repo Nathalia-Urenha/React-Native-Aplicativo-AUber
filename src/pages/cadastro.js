@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
     KeyboardAvoidingView,
     View,
@@ -11,6 +11,37 @@ import {
 } from 'react-native'
 
 export default function Cadastro({navigation}){
+
+  const [nome, setNome] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [cep, setCep] = useState(null)
+  const [Logradouro, setLogradouro] = useState(null)
+  const [Numero, setNumero] = useState(null)
+  const [Bairro, setBairro] = useState(null)
+  const [Localidade, setLocalidade] = useState(null)
+  const [UF, setUF] = useState(null)
+
+  async function chamarCep(cep){
+    let url = `https://viacep.com.br/ws/${cep}/json/`;
+
+    let req = await fetch(url);
+    let res = await req.json();
+    console.log(res);
+
+    setBairro(res.bairro);
+    setLocalidade(res.localidade);
+    setLogradouro(res.logradouro);
+    setUF(res.uf)
+    setCep(res.cep)
+  }
+
+
+  dados = {
+    nome: nome,
+    email: email,
+    password: password,
+  }
 
   const Login = () =>{
     navigation.reset({
@@ -29,21 +60,91 @@ export default function Cadastro({navigation}){
                 <TextInput
                     style={styles.input}
                     placeholder="Nome"
-                    onChangeText={()=>{}}
+                    onChangeText={value=>setNome(value)}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="E-mail"
                     autoCorrect={false}
-                    onChangeText={()=>{}}
+                    onChangeText={value=>setEmail(value)}
+                    keyboardType="email-address"
                 />
+                 <View style={{flexDirection:"row"}}>
+                  <View style={{flex:1}}>
+                    <TextInput
+                          style={[styles.input, {justifyContent: 'flex-start',},]}
+                          placeholder="Cep"
+                          keyboardType='number-pad'
+                          autoCorrect={false}
+                          onChangeText={value=>{
+                              if(value.length == 8){
+                                chamarCep(value);
+                              }
+                            }
+                          }
+
+                      />
+                  </View>
+                  <View style={{flex:1}}>
+                    <TextInput
+                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
+                          placeholder="Logradouro"
+                          autoCorrect={false}
+                          value={Logradouro}
+                      />
+                  </View>
+                </View>
+                <View style={{flexDirection:"row"}}>
+                  <View style={{flex:1}}>
+                    <TextInput
+                          style={[styles.input, {justifyContent: 'flex-start',},]}
+                          placeholder="Numero"
+                          autoCorrect={false}
+                          onChangeText={value=>setNumero(value)}
+                    />
+                  </View>
+                  <View style={{flex:1}}>
+                    <TextInput
+                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
+                          placeholder="Bairro"
+                          autoCorrect={false}
+                          value={Bairro}
+                      />
+                  </View>
+                </View>
+                <View style={{flexDirection:"row"}}>
+                  <View style={{flex:1}}>
+                    <TextInput
+                          style={[styles.input, {justifyContent: 'flex-start',},]}
+                          placeholder="Cidade"
+                          autoCorrect={false}
+                          value={Localidade}
+                      />
+                  </View>
+                  <View style={{flex:1}}>
+                    <TextInput
+                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
+                          placeholder="UF"
+                          autoCorrect={false}
+                          value={UF}
+                          
+                      />
+                  </View>
+                </View>
                 <TextInput
                     style={styles.input}
                     placeholder="Senha"
                     autoCorrect={false}
-                    onChangeText={()=>{}}
+                    secureTextEntry={true}
+                    onChangeText={value=>setPassword(value)}
                 />
-                <TouchableOpacity style={styles.btnSubmit}>
+                <TouchableOpacity 
+                style={styles.btnSubmit}
+                //enviar pra api e mudar pra tela de login - perguntar pro igor como faz 
+                onPress={() => {
+                  fetch('https://reqres.in/api/posts', dados).then( (resposta) => console.log(resposta))}
+                }
+                >
                     <Text style={styles.textSubmit}>Cadastrar</Text>
                 </TouchableOpacity>
                 <Pressable onPress={Login}>
@@ -60,7 +161,7 @@ const styles = StyleSheet.create({
       flex:1,
       alignItems: 'center',
       justifyContent: 'flex-start',
-      backgroundColor: '#191919'
+      backgroundColor: '#FFE4E1'
     },
     container:{
       flex:1,
@@ -104,13 +205,13 @@ const styles = StyleSheet.create({
       padding: 30
     },
     containerLogo:{
-        flex:1,
+        flex:0.5,
         justifyContent: 'center',
         alignItems: 'center',
       },
       texto:{
-        color: "#fff",
+        color: "#000",
         fontSize: 15,
-        padding: 30
+        padding: 20
       }
   });

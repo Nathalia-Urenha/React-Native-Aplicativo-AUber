@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableWithoutFeedback, Animated, TouchableOpa
 
 export default class FabButton extends Component{
 
+
     animation = new Animated.Value(0);
 
     toggleMenu = () =>{
@@ -20,7 +21,7 @@ export default class FabButton extends Component{
         }
 
     render(){
-
+       
         const passearStyle = {
             transform:[
                 {
@@ -59,11 +60,15 @@ export default class FabButton extends Component{
                 }
             ]
         }
+
+       const chamar = Navegar;
+       console.log(chamar)
+
         return(
             <View style={[styles.container, this.props.style]}>
                <TouchableWithoutFeedback onPress={()=> {}}>
                     <Animated.View style={[styles.button, styles.submenu, chamarStyle]}>
-                        <TouchableOpacity name='chamar' size={20} color="#FFF">
+                        <TouchableOpacity name='chamar' size={20} color="#FFF" onPress={Navegar}>
                             <Text style={{fontSize: 30}}>C</Text>
                         </TouchableOpacity>
                     </Animated.View> 
@@ -117,3 +122,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#fe76a8',
     }
 });
+
+function Navegar({navigation}){
+    console.log("navegar")
+
+     const chamar =  () => {
+        navigation.reset({
+            index: 0,
+            routes: [{name: "Chamar"}]
+        });
+    }
+    
+    return {chamar}
+ 
+    
+}
