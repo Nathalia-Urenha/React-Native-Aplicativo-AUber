@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
     KeyboardAvoidingView,
     View,
@@ -12,64 +12,36 @@ import {
 
 import api from "../services/api";
 
-export default function Cadastro({navigation}){
+export default function perfil({navigation}){
 
-  const [nome, setNome] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
-  const [cep, setCep] = useState(null)
-  const [Logradouro, setLogradouro] = useState(null)
-  const [Numero, setNumero] = useState(null)
-  const [Bairro, setBairro] = useState(null)
-  const [Localidade, setLocalidade] = useState(null)
-  const [UF, setUF] = useState(null)
+    const [usuarios, setUsuarios] = useState([]);
 
-  async function chamarCep(cep){
-    let url = `https://viacep.com.br/ws/${cep}/json/`;
-
-    let req = await fetch(url);
-    let res = await req.json();
-    console.log(res);
-
-    setBairro(res.bairro);
-    setLocalidade(res.localidade);
-    setLogradouro(res.logradouro);
-    setUF(res.uf)
-    setCep(res.cep)
-  }
+    useEffect(()=>{
+        api.get("/usuarios").then((response)=>{
+           setUsuarios(response.data);
+            console.log(response.data);
+        }).catch((error)=>{console.log(JSON.stringify(error))})
+    }, [])
 
 
-  dados = {
-    nome: nome,
-    email: email,
-    password: password,
-    endereco: Logradouro,
-  }
-
-  const Login = () =>{
-    navigation.reset({
-      index: 0,
-      routes: [{name: "Login"}]
-    });
-  }
     return(
         <KeyboardAvoidingView style={styles.background}>
             <View style={styles.containerLogo}>
-            <Text style={styles.title}>Criar nova conta</Text>
-                <Image 
-                source={require('../assets/pet.png')}/>
+                <Text style={styles.title}>Perfil</Text>
+                    <Image 
+                    source={require('../assets/pet.png')}/>
             </View>
             <View style={styles.container}>
                 <TextInput
                     style={styles.input}
                     placeholder="Nome"
-                    onChangeText={value=>setNome(value)}
+                    value={usuarios[0].nome}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="E-mail"
                     autoCorrect={false}
-                    onChangeText={value=>setEmail(value)}
+                    value={usuarios[0].email}
                     keyboardType="email-address"
                 />
                  <View style={{flexDirection:"row"}}>
@@ -79,12 +51,7 @@ export default function Cadastro({navigation}){
                           placeholder="Cep"
                           keyboardType='number-pad'
                           autoCorrect={false}
-                          onChangeText={value=>{
-                              if(value.length == 8){
-                                chamarCep(value);
-                              }
-                            }
-                          }
+                          onChangeText={()=>{}}
 
                       />
                   </View>
@@ -93,7 +60,7 @@ export default function Cadastro({navigation}){
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
                           placeholder="Logradouro"
                           autoCorrect={false}
-                          value={Logradouro}
+                          value={usuarios[0].endereco}
                       />
                   </View>
                 </View>
@@ -103,7 +70,7 @@ export default function Cadastro({navigation}){
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Numero"
                           autoCorrect={false}
-                          onChangeText={value=>setNumero(value)}
+                          onChangeText={()=>{}}
                     />
                   </View>
                   <View style={{flex:1}}>
@@ -111,7 +78,7 @@ export default function Cadastro({navigation}){
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
                           placeholder="Bairro"
                           autoCorrect={false}
-                          value={Bairro}
+                          value={()=>{}}
                       />
                   </View>
                 </View>
@@ -121,7 +88,7 @@ export default function Cadastro({navigation}){
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Cidade"
                           autoCorrect={false}
-                          value={Localidade}
+                          value={()=>{}}
                       />
                   </View>
                   <View style={{flex:1}}>
@@ -129,7 +96,7 @@ export default function Cadastro({navigation}){
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
                           placeholder="UF"
                           autoCorrect={false}
-                          value={UF}
+                          value={()=>{}}
                           
                       />
                   </View>
@@ -139,21 +106,9 @@ export default function Cadastro({navigation}){
                     placeholder="Senha"
                     autoCorrect={false}
                     secureTextEntry={true}
-                    onChangeText={value=>setPassword(value)}
+                    value={usuarios[0].password}
                 />
-                <TouchableOpacity 
-                style={styles.btnSubmit}
-                //enviar pra api e mudar pra tela de login - perguntar pro igor como faz 
-                onPress={() => {
-                  fetch('https://reqres.in/api/posts', dados).then( (resposta) => console.log(resposta))}
-                }
-                >
-                    <Text style={styles.textSubmit}>Cadastrar</Text>
-                </TouchableOpacity>
-                <Pressable onPress={Login}>
-                  <Text style={styles.texto}>Já possui conta? Login</Text>
-                </Pressable>
-    
+                
             </View>
             </KeyboardAvoidingView>
     );

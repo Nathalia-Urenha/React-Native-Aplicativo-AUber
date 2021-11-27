@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import {View, Text, StyleSheet, TouchableWithoutFeedback, Animated, TouchableOpacity} from 'react-native';
+import ChamarRoute from "../routes/chamarRoute";
+import { useNavigation } from "@react-navigation/core";
 
 export default class FabButton extends Component{
 
+    
 
     animation = new Animated.Value(0);
 
@@ -18,9 +21,12 @@ export default class FabButton extends Component{
         this.open = !this.open;
 
 
-        }
+    }
+
+
 
     render(){
+
        
         const passearStyle = {
             transform:[
@@ -61,14 +67,14 @@ export default class FabButton extends Component{
             ]
         }
 
-       const chamar = Navegar;
-       console.log(chamar)
+    //    const chamar = Navegar();
+    //    console.log(chamar)
 
         return(
             <View style={[styles.container, this.props.style]}>
-               <TouchableWithoutFeedback onPress={()=> {}}>
+               <TouchableWithoutFeedback onPress={()=>{}}>
                     <Animated.View style={[styles.button, styles.submenu, chamarStyle]}>
-                        <TouchableOpacity name='chamar' size={20} color="#FFF" onPress={Navegar}>
+                        <TouchableOpacity name='chamar' size={20} color="#FFF" onPress={() => {chamar}}>
                             <Text style={{fontSize: 30}}>C</Text>
                         </TouchableOpacity>
                     </Animated.View> 
@@ -123,17 +129,17 @@ const styles = StyleSheet.create({
     }
 });
 
-function Navegar({navigation}){
-    console.log("navegar")
+// function Navegar({navigation}){
+//     console.log("navegar")
 
-     const chamar =  () => {
-        navigation.reset({
-            index: 0,
-            routes: [{name: "Chamar"}]
-        });
-    }
+//      const chamar =  () => {
+//         navigation.reset({
+//             index: 0,
+//             routes: [{name: "Chamar"}]
+//         });
+//     }
     
-    return {chamar}
+//     return {chamar}
  
     
-}
+// }

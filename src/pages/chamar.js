@@ -1,14 +1,30 @@
 import React from "react";
-import {View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity,TextInput} from 'react-native';
+import {View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity,TextInput, Pressable} from 'react-native';
 import { useState } from "react";
 import Radio from "../components/Radio";
 
+
 export default function Chamar({navigation}){
+
+    const [nomePet, setNomePet] = useState(null)
+   
+    const [tempo, setTempo] = useState(null)
+    const [select, setselect] = useState(null)
 
     const [porte, setPorte] = useState(null)
     const [selected, setSelected] = useState(null)
-    console.log(porte)
-    console.log(selected)
+    
+    dados = {
+      nomeCachorro: nomePet,
+      porteCachorro: porte,
+      tempoPasseio: tempo,
+    } 
+    const home = () =>{
+        navigation.reset({
+          index: 0,
+          routes: [{name: "Home"}]
+        });
+      }
   
 
     return(
@@ -20,30 +36,53 @@ export default function Chamar({navigation}){
                 </View>
                 <View style={styles.container}>
                     <TextInput
-                        style={[styles.input, {width: "50%"}, ]}
-                        placeholder="Quantidade de Pets"
-                        keyboardType='number-pad'
-                    // onChangeText={value=>setNome(value)}
-                    />
-                    <TextInput
                         style={styles.input}
-                        placeholder="Nome"
-                       // onChangeText={value=>setNome(value)}
+                        placeholder="Nome do Pet"
+                       onChangeText={value=>setNomePet(value)}
                     />
-                    <Text style={{fontSize: 18}}>Porte:</Text>
-                    
-                   <Radio
-                        selected = {selected}
-                        options={['Pequeno', 'Médio', 'Grande']}
-                        horizontal={false}
-                        onChangeSelect={(value, i)=>{
-                            setPorte(value);
-                            setSelected(i);
-                                
-                            }
-                        }
-                   />
-                
+                    <View style={{flexDirection:"row"}}>
+                        <View style={{flex:1}}>
+                            <Text style={[{fontSize: 18}, {justifyContent: 'flex-start',}]}>Porte:</Text>
+                            
+                            <Radio
+                                selected = {selected}
+                                options={['Pequeno', 'Médio', 'Grande']}
+                                horizontal={false}
+                                onChangeSelect={(value, i)=>{
+                                    setPorte(value);
+                                    setSelected(i);
+                                        
+                                    }
+                                }
+                            />
+                        </View>
+                        <View style={{flex:1}}> 
+                            <Text style={[{fontSize: 18}, {justifyContent: 'flex-end',}]}>Tempo:</Text>
+                            <Radio
+                                selected = {select}
+                                options={['15 minutos', '30 Minutos', '1 hora']}
+                                horizontal={false}
+                                onChangeSelect={(valor, x)=>{
+                                    setTempo(valor);
+                                    setselect(x);
+                                        
+                                    }
+                                }
+                            />
+                        </View>
+                    </View>
+                    <TouchableOpacity 
+                    style={styles.btnSubmit}
+                    //enviar pra api e mudar pra tela de login - perguntar pro igor como faz 
+                    onPress={() => {
+                    fetch('https://reqres.in/api/posts', dados).then( (resposta) => console.log(resposta))}
+                    }
+                    >
+                        <Text style={styles.textSubmit}>Cadastrar</Text>
+                    </TouchableOpacity>
+                    <Pressable onPress={home}>
+                        <Text style={styles.texto}>Voltar para a página inicial</Text>
+                    </Pressable>
                     
             </View>
         </KeyboardAvoidingView>
@@ -64,7 +103,7 @@ const styles = StyleSheet.create({
       },
       container:{
         flex:1,
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'center',
         width: '90%',
         paddingBottom: 50
@@ -85,6 +124,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 7,
+        marginTop: 20
       },
       textSubmit:{
         color:"#FFF",
@@ -101,5 +141,10 @@ const styles = StyleSheet.create({
       title:{
         color: '#fe76a8',
         fontSize: 40
+      },
+      texto:{
+        color: "#000",
+        fontSize: 15,
+        padding: 20
       }
 });

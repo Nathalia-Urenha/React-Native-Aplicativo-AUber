@@ -8,6 +8,7 @@ import Chamar from './src/pages/chamar';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
+import Perfil from './src/pages/perfil';
 
 
 const Stack = createStackNavigator();
@@ -23,6 +24,7 @@ function MyStack() {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
       <Stack.Screen name="Chamar" component={Chamar} />
+      <Stack.Screen name="Perfil" component={Perfil} />
     </Stack.Navigator>
   );
 }
