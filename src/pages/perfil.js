@@ -9,18 +9,32 @@ import {
     Image, 
     Pressable
 } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 import api from "../services/api";
 
 export default function perfil({navigation}){
 
+  const home = () =>{
+    navigation.reset({
+      index: 0,
+      routes: [{name: "Home"}]
+    });
+  }
+
     const [usuarios, setUsuarios] = useState([]);
 
     useEffect(()=>{
-        api.get("/usuarios").then((response)=>{
-           setUsuarios(response.data);
-            console.log(response.data);
-        }).catch((error)=>{console.log(JSON.stringify(error))})
+      const storage = async() => {
+        const idGet = await AsyncStorage.getItem("idUserSession");
+        
+        api.get(`/usuarios/${idGet}`).then((response)=>{
+          setUsuarios(response.data);
+           console.log(response.data);
+       }).catch((error)=>{console.log(JSON.stringify(error))})
+      }
+      storage()
     }, [])
 
 
@@ -35,13 +49,13 @@ export default function perfil({navigation}){
                 <TextInput
                     style={styles.input}
                     placeholder="Nome"
-                    value={usuarios[0].nome}
+                    value={usuarios.nome}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="E-mail"
                     autoCorrect={false}
-                    value={usuarios[0].email}
+                    value={usuarios.email}
                     keyboardType="email-address"
                 />
                  <View style={{flexDirection:"row"}}>
@@ -51,7 +65,7 @@ export default function perfil({navigation}){
                           placeholder="Cep"
                           keyboardType='number-pad'
                           autoCorrect={false}
-                          onChangeText={()=>{}}
+                          value={usuarios.cep}
 
                       />
                   </View>
@@ -60,7 +74,7 @@ export default function perfil({navigation}){
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
                           placeholder="Logradouro"
                           autoCorrect={false}
-                          value={usuarios[0].endereco}
+                          value={usuarios.logradouro}
                       />
                   </View>
                 </View>
@@ -70,7 +84,7 @@ export default function perfil({navigation}){
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Numero"
                           autoCorrect={false}
-                          onChangeText={()=>{}}
+                          value={usuarios.numero}
                     />
                   </View>
                   <View style={{flex:1}}>
@@ -78,7 +92,7 @@ export default function perfil({navigation}){
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
                           placeholder="Bairro"
                           autoCorrect={false}
-                          value={()=>{}}
+                          value={usuarios.bairro}
                       />
                   </View>
                 </View>
@@ -88,7 +102,7 @@ export default function perfil({navigation}){
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Cidade"
                           autoCorrect={false}
-                          value={()=>{}}
+                          value={usuarios.localidade}
                       />
                   </View>
                   <View style={{flex:1}}>
@@ -96,22 +110,17 @@ export default function perfil({navigation}){
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
                           placeholder="UF"
                           autoCorrect={false}
-                          value={()=>{}}
+                          value={usuarios.uf}
                           
                       />
                   </View>
                 </View>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Senha"
-                    autoCorrect={false}
-                    secureTextEntry={true}
-                    value={usuarios[0].password}
-                />
-                
+              <Pressable onPress={home}>
+                <Text style={styles.texto}>Voltar para a página inicial</Text>
+              </Pressable>
             </View>
             </KeyboardAvoidingView>
-    );
+   );
 }
 
 const styles = StyleSheet.create({

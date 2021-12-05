@@ -9,20 +9,34 @@ import {
   StyleSheet, Animated,
   Pressable,
   AppRegistry
-
 } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from "../services/api";
 export default function Login({navigation}) {
 
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
 
-  const entrar = () =>{
-    navigation.reset({
-      index: 0,
-      routes: [{name: "Home"}]
-    });
-  }
+  const entrar = async() =>{
+    const dados = {
+      "email": email,
+      "password": password
+    }
+    api.post("/login", dados).then((response)=>{
+     
+      const storage = async() => {
+        await AsyncStorage.setItem("idUserSession",response.data)
+        navigation.navigate("Home")
+
+    }
+      storage()
+
+      
+    }).catch((error)=>{console.log(JSON.stringify(error))})
+   }
+
+
+   
   const cadastrar = () =>{
     navigation.reset({
       index: 0,

@@ -23,6 +23,7 @@ export default function Cadastro({navigation}){
   const [Bairro, setBairro] = useState(null)
   const [Localidade, setLocalidade] = useState(null)
   const [UF, setUF] = useState(null)
+  
 
   async function chamarCep(cep){
     let url = `https://viacep.com.br/ws/${cep}/json/`;
@@ -38,12 +39,23 @@ export default function Cadastro({navigation}){
     setCep(res.cep)
   }
 
+  const cadastrarUsuario = () => {
+    const dados = {
+      "nome": nome,
+      "email": email,
+      "password": password,
+      "cep": cep,
+      "logradouro": Logradouro,
+      "numero": Numero,
+      "bairro": Bairro,
+      "localidade": Localidade,
+      "uf": UF
 
-  dados = {
-    nome: nome,
-    email: email,
-    password: password,
-    endereco: Logradouro,
+    }
+    api.post("/usuarios", dados).then((response)=>{
+       console.log(response.data);
+       navigation.navigate('Login');
+   }).catch((error)=>{console.log(JSON.stringify(error))})
   }
 
   const Login = () =>{
@@ -144,9 +156,7 @@ export default function Cadastro({navigation}){
                 <TouchableOpacity 
                 style={styles.btnSubmit}
                 //enviar pra api e mudar pra tela de login - perguntar pro igor como faz 
-                onPress={() => {
-                  fetch('https://reqres.in/api/posts', dados).then( (resposta) => console.log(resposta))}
-                }
+                onPress={()=>{cadastrarUsuario()}}
                 >
                     <Text style={styles.textSubmit}>Cadastrar</Text>
                 </TouchableOpacity>

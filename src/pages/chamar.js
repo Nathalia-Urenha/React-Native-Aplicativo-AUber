@@ -1,8 +1,9 @@
 import React from "react";
 import {View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity,TextInput, Pressable} from 'react-native';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Radio from "../components/Radio";
 
+import api from "../services/api";
 
 export default function Chamar({navigation}){
 
@@ -13,12 +14,31 @@ export default function Chamar({navigation}){
 
     const [porte, setPorte] = useState(null)
     const [selected, setSelected] = useState(null)
+
+    // const [idGet, setIdGet] = useState(null)
     
-    dados = {
-      nomeCachorro: nomePet,
-      porteCachorro: porte,
-      tempoPasseio: tempo,
-    } 
+    // useEffect(()=>{
+    //   const storage = async() => {
+    //     setIdGet(await AsyncStorage.getItem("idUserSession"));
+    //   }
+    //   storage()  
+    // }, [])
+    
+    const cadastrarPasseio = () => {
+
+      const dados = {
+        nomeCachorro: nomePet,
+        porteCachorro: porte,
+        tempoPasseio: tempo,
+      //  donoCachorro: idGet,
+      } 
+      api.post("/passeios", dados).then((response)=>{
+         console.log(response.data);
+         navigation.navigate('Home');
+     }).catch((error)=>{console.log(JSON.stringify(error))})
+    }
+    
+    
     const home = () =>{
         navigation.reset({
           index: 0,
@@ -74,9 +94,7 @@ export default function Chamar({navigation}){
                     <TouchableOpacity 
                     style={styles.btnSubmit}
                     //enviar pra api e mudar pra tela de login - perguntar pro igor como faz 
-                    onPress={() => {
-                    fetch('https://reqres.in/api/posts', dados).then( (resposta) => console.log(resposta))}
-                    }
+                    onPress={cadastrarPasseio}
                     >
                         <Text style={styles.textSubmit}>Cadastrar</Text>
                     </TouchableOpacity>
