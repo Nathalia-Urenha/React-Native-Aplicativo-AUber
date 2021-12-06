@@ -11,6 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Perfil from './src/pages/perfil';
 import Acao from './src/pages/acao';
 import Passear from './src/pages/passear';
+import informacoes from './src/pages/informacoes';
 
 
 
@@ -30,6 +31,7 @@ function MyStack() {
       <Stack.Screen name="Perfil" component={Perfil} />
       <Stack.Screen name="Acao" component={Acao} />
       <Stack.Screen name="Passear" component={Passear} />
+      <Stack.Screen name="Informacoes" component={informacoes} />
     </Stack.Navigator>
   );
 }

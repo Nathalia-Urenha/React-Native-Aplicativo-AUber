@@ -1,12 +1,13 @@
-import React, { useRef, Component} from "react";
+import React, { useRef, Component, useEffect} from "react";
 import {View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Animated, KeyboardAvoidingView} from 'react-native';
+import Notificacao from "../components/Notificacao";
 import api from '../services/api'
 
 
 
 export default function Home({navigation}){
     
- 
+    
 
     const acao =  () => {
         navigation.reset({
@@ -14,26 +15,18 @@ export default function Home({navigation}){
             routes: [{name: "Acao"}]
         });
     }
-
     
 
     return(
-        <KeyboardAvoidingView>
+        <KeyboardAvoidingView style={styles.background}>
             <View>
-                <View style={[styles.container]}>
-                    <TouchableWithoutFeedback onPress={acao}>
-                        <Animated.View style={[styles.button, styles.menu]}>
-                            <TouchableOpacity name='plus' size={24} color="#FFF" onPress={()=>{}}>
-                                <Text style={{fontSize: 30}}>+</Text>
-                            </TouchableOpacity>
-                        </Animated.View> 
-                    </TouchableWithoutFeedback>
-                </View>
-
-                <View>
-                    <Text style={styles.title}>Bem-Vindo</Text>
-                </View>
+                <Notificacao />
             </View>
+            <TouchableOpacity onPress={acao} style={styles.btnSubmit}>
+                <Text style={styles.textSubmit}>Ação</Text>
+            </TouchableOpacity>
+
+        
         </KeyboardAvoidingView>
     );
 }
@@ -41,36 +34,30 @@ export default function Home({navigation}){
 
 const styles = StyleSheet.create({
     background:{
-
-        backgroundColor: '#FFE4E1'
-      },
-    container:{
-        alignItems: 'center',
-        position: 'absolute',
-        bottom: -400, 
-        right: 60,
-       
+      flex:1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignContent: "center",
+      backgroundColor: '#FFE4E1',
+     
+      
     },
-    button:{
-        position: 'absolute',
-        width: 60,
-        height: 60,
-        borderRadius: 60/2,
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowRadius: 10,
-        shadowColor: '#fe76a8',
-        shadowOpacity: 0.3,
-        shadowOffset:{
-            height: 10,
-        }
-    },
-    menu:{
-        backgroundColor: '#fe76a8'
-    },
+    
     title:{
         color: '#fe76a8',
         fontSize: 40
+    },
+    btnSubmit:{
+        backgroundColor: "#fe76a8",
+        width: '100%',
+        height: 45,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 7,
+      },
+      textSubmit:{
+        color:"#FFF",
+        fontSize: 18
       },
   
 })

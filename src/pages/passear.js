@@ -1,9 +1,13 @@
 import React from "react";
 import {View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity,TextInput, Pressable} from 'react-native';
+
 import { useState, useEffect } from "react";
 import Radio from "../components/Radio";
+import Card from "../components/Card";
 
 import api from "../services/api";
+import { ScrollView } from "react-native-gesture-handler";
+import MeusPasseios from "../components/MeusPasseios";
 
 export default function Passear({navigation}){
 
@@ -21,10 +25,26 @@ export default function Passear({navigation}){
                 <Text style={styles.title}>Passeios Disponíveis</Text>
             </View>
             <View style={styles.container}>
+                <ScrollView>
+                <View style={{justifyContent: "center", alignItems: "center"}}>
+                        <Card /> 
+                    </View>    
+                </ScrollView>
+            </View>
+            <View style={styles.containerLogo}>
+                <Text style={styles.title}>Meus Passeios</Text>
+            </View>
+            <View style={styles.container}>
+                <ScrollView>
+                    <View style={{justifyContent: "center", alignItems: "center"}}>
+                        <MeusPasseios /> 
+                    </View>
+                </ScrollView>
+            </View>  
+            
             <Pressable onPress={home}>
                 <Text style={styles.texto}>Voltar para a página inicial</Text>
             </Pressable>
-            </View>
             
         </KeyboardAvoidingView>
     );
@@ -46,8 +66,9 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems: 'center',
         justifyContent: 'center',
-        width: '90%',
-        paddingBottom: 50
+        alignContent: 'center',
+        //width: '90%',
+       paddingBottom: 50
       },     
       title:{
         color: '#fe76a8',

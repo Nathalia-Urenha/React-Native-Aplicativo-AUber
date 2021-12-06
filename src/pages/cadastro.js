@@ -19,7 +19,7 @@ export default function Cadastro({navigation}){
   const [password, setPassword] = useState(null)
   const [cep, setCep] = useState(null)
   const [Logradouro, setLogradouro] = useState(null)
-  const [Numero, setNumero] = useState(null)
+  const [Numero, setNumero] = useState(0)
   const [Bairro, setBairro] = useState(null)
   const [Localidade, setLocalidade] = useState(null)
   const [UF, setUF] = useState(null)

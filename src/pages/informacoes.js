@@ -7,84 +7,115 @@ import {
     Text,
     StyleSheet, 
     Image, 
-    Pressable
+    Pressable,
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import api from "../services/api";
 
-export default function perfil({navigation}){
+export default function informacoes({navigation, route}){
 
-  const home = () =>{
-    navigation.reset({
-      index: 0,
-      routes: [{name: "Home"}]
-    });
-  }
+    const {idCachorro} = route.params;  
+    const [estadoBotao, setEstadoBotao] = useState("");
 
-    const [usuarios, setUsuarios] = useState([]);
+    const home = () =>{
+        navigation.reset({
+        index: 0,
+        routes: [{name: "Home"}]
+        });
+    }
+
+    const [information, setInformation] = useState({"infoDono": {"__v": 0, "_id": "", "bairro": "", "cep": "", "email": "", "localidade": "", "logradouro": "", "nome": "", "numero": 0, "password": "", "uf": ""}, "infoPasseio": {"__v": 0, "_id": "", "donoCachorro": "", "nomeCachorro": "", "porteCachorro": "", "tempoPasseio": 0, "status": 0}});
+    const [infoStatus, setInfoStatus] = useState(0);
 
     useEffect(()=>{
       const storage = async() => {
-        const idGet = await AsyncStorage.getItem("idUserSession");
-        
-        api.get(`/usuarios/${idGet}`).then((response)=>{
-          setUsuarios(response.data);
-           console.log(response.data);
+        api.get(`/passeios/ativos/${idCachorro}`).then((response)=>{
+            setInformation(response.data);
+            setInfoStatus(response.data.infoPasseio.status)
+            if(Number(response.data.infoPasseio.status) === 0) {
+                setEstadoBotao("Aceitar")
+            } if(Number(response.data.infoPasseio.status) === 1) {
+                setEstadoBotao("Cheguei")
+            } else if(Number(response.data.infoPasseio.status) === 2) {
+                setEstadoBotao("Finalizar")
+            } else {
+                console.log(response.data.infoPasseio.status)
+            }
        }).catch((error)=>{console.log(JSON.stringify(error))})
       }
       storage()
     }, [])
 
+    const atualizarPasseador = async() => {
+        const idGet = await AsyncStorage.getItem("idUserSession");
+        const dados = {
+            "passeador": idGet,
+            "status": (Number(infoStatus) + 1)
+        }
+    api.put(`/passeios/${information.infoPasseio._id}`, dados).then((response)=>{
+            setInfoStatus(response.data.status)
+            if(Number(response.data.status) === 1) {
+                setEstadoBotao("Cheguei")
+            } else if(Number(response.data.status) === 2) {
+                setEstadoBotao("Finalizar")
+            }
+       }).catch((error)=>{console.log(JSON.stringify(error))})
+      }
+
 
     return(
         <KeyboardAvoidingView style={styles.background}>
             <View style={styles.containerLogo}>
-                <Text style={styles.title}>Perfil</Text>
                     <Image 
                     source={require('../assets/pet.png')}/>
             </View>
             <View style={styles.container}>
+                <Text style={styles.title}>Informações do Pet</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Nome"
-                    value={usuarios.nome}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="E-mail"
-                    autoCorrect={false}
-                    value={usuarios.email}
-                    keyboardType="email-address"
+                    value={information.infoPasseio.nomeCachorro} // nome do cachorro
                 />
                  <View style={{flexDirection:"row"}}>
                   <View style={{flex:1}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-start',},]}
-                          placeholder="Cep"
-                          keyboardType='number-pad'
-                          autoCorrect={false}
-                          value={usuarios.cep}
-
-                      />
+                          placeholder="Porte"
+                          value={information.infoPasseio.porteCachorro}
+                    />
                   </View>
+                  
                   <View style={{flex:1}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
-                          placeholder="Logradouro"
+                          placeholder="Tempo"
                           autoCorrect={false}
-                          value={usuarios.logradouro}
+                          value={`${JSON.stringify(information.infoPasseio.tempoPasseio)} minutos`}
                       />
                   </View>
                 </View>
+               
+                <Text style={styles.title}>Informações do Dono</Text>
+                <TextInput
+                    style={styles.input}
+                    value={information.infoDono.nome} // nome do cachorro
+                />
+                <View style={{flexDirection:"row"}}>
+                    <TextInput
+                        style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
+                        placeholder="Logradouro"
+                        autoCorrect={false}
+                        value={information.infoDono.logradouro}
+                    />
+                </View>
+              
                 <View style={{flexDirection:"row"}}>
                   <View style={{flex:0.2}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Numero"
-                          autoCorrect={false}
-                          value={JSON.stringify(usuarios.numero)}
+                          value={`${JSON.stringify(information.infoDono.numero)}`}
                     />
                   </View>
                   <View style={{flex:1}}>
@@ -92,7 +123,7 @@ export default function perfil({navigation}){
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
                           placeholder="Bairro"
                           autoCorrect={false}
-                          value={usuarios.bairro}
+                          value={information.infoDono.bairro}
                       />
                   </View>
                 </View>
@@ -102,19 +133,16 @@ export default function perfil({navigation}){
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Cidade"
                           autoCorrect={false}
-                          value={usuarios.localidade}
-                      />
-                  </View>
-                  <View style={{flex:1}}>
-                    <TextInput
-                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
-                          placeholder="UF"
-                          autoCorrect={false}
-                          value={usuarios.uf}
-                          
+                          value={information.infoDono.localidade}
                       />
                   </View>
                 </View>
+                <TouchableOpacity 
+                style={styles.btnSubmit}
+                onPress={atualizarPasseador}
+                >
+                    <Text style={styles.textSubmit}>{estadoBotao}</Text>
+                </TouchableOpacity>
               <Pressable onPress={home}>
                 <Text style={styles.texto}>Voltar para a página inicial</Text>
               </Pressable>
@@ -131,7 +159,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#FFE4E1'
     },
     container:{
-      flex:1,
+      flex:1.3,
       alignItems: 'center',
       padding: 20,
       width: '90%',
@@ -168,17 +196,17 @@ const styles = StyleSheet.create({
     title:{
       color: '#fe76a8',
       fontSize: 25,
-      paddingBottom: 30,
-      padding: 30
+       paddingBottom: 5,
+       padding: 5
     },
     containerLogo:{
-        flex:0.5,
+        flex:0.3,
         justifyContent: 'center',
         alignItems: 'center',
       },
       texto:{
         color: "#000",
         fontSize: 15,
-        padding: 20
+        padding: 10
       }
   });

@@ -2,7 +2,6 @@ import React from "react";
 import {View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity,TextInput, Pressable} from 'react-native';
 
 
-
 export default function Acao({navigation}){
 
     const home =  () => {

@@ -2,6 +2,7 @@ import React from "react";
 import {View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity,TextInput, Pressable} from 'react-native';
 import { useState, useEffect } from "react";
 import Radio from "../components/Radio";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from "../services/api";
 
@@ -15,22 +16,28 @@ export default function Chamar({navigation}){
     const [porte, setPorte] = useState(null)
     const [selected, setSelected] = useState(null)
 
-    // const [idGet, setIdGet] = useState(null)
+    const [idGet, setIdGet] = useState(null)
+    const [statusPet, setStatusPet] = useState(0)
     
-    // useEffect(()=>{
-    //   const storage = async() => {
-    //     setIdGet(await AsyncStorage.getItem("idUserSession"));
-    //   }
-    //   storage()  
-    // }, [])
+    useEffect(()=>{
+      const storage = async() => {
+        const id = await AsyncStorage.getItem("idUserSession")
+      console.log(id);
+        setIdGet(id);
+      }
+      storage()  
+    }, [])
     
     const cadastrarPasseio = () => {
+
 
       const dados = {
         nomeCachorro: nomePet,
         porteCachorro: porte,
         tempoPasseio: tempo,
-      //  donoCachorro: idGet,
+        donoCachorro: idGet,
+        status: statusPet,
+        passeador: null,
       } 
       api.post("/passeios", dados).then((response)=>{
          console.log(response.data);
@@ -80,10 +87,11 @@ export default function Chamar({navigation}){
                             <Text style={[{fontSize: 18}, {justifyContent: 'flex-end',}]}>Tempo:</Text>
                             <Radio
                                 selected = {select}
-                                options={['15 minutos', '30 Minutos', '1 hora']}
+                                options={['15 minutos', '30 Minutos', '60 minutos']}
                                 horizontal={false}
                                 onChangeSelect={(valor, x)=>{
-                                    setTempo(valor);
+                                    let newTime = valor.substring(0,2);
+                                    setTempo(Number(newTime));
                                     setselect(x);
                                         
                                     }
