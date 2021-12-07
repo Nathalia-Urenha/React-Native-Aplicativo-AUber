@@ -12,6 +12,8 @@ import Perfil from './src/pages/perfil';
 import Acao from './src/pages/acao';
 import Passear from './src/pages/passear';
 import informacoes from './src/pages/informacoes';
+import Finalizar from './src/pages/finalizar';
+
 
 
 
@@ -32,6 +34,7 @@ function MyStack() {
       <Stack.Screen name="Acao" component={Acao} />
       <Stack.Screen name="Passear" component={Passear} />
       <Stack.Screen name="Informacoes" component={informacoes} />
+      <Stack.Screen name="Finalizar" component={Finalizar} />
     </Stack.Navigator>
   );
 }

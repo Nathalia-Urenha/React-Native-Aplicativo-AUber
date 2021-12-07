@@ -40,8 +40,11 @@ export default function informacoes({navigation, route}){
                 setEstadoBotao("Cheguei")
             } else if(Number(response.data.infoPasseio.status) === 2) {
                 setEstadoBotao("Finalizar")
-            } else {
-                console.log(response.data.infoPasseio.status)
+            } else if(Number(response.data.infoPasseio.status) >= 3) {
+                setEstadoBotao("Finalizado");
+            }
+            else {
+                console.log("JOSE")
             }
        }).catch((error)=>{console.log(JSON.stringify(error))})
       }
@@ -60,6 +63,9 @@ export default function informacoes({navigation, route}){
                 setEstadoBotao("Cheguei")
             } else if(Number(response.data.status) === 2) {
                 setEstadoBotao("Finalizar")
+            } else if(Number(response.data.status) >= 3) {
+                setEstadoBotao("Finalizado");
+                navigation.navigate("Finalizar");
             }
        }).catch((error)=>{console.log(JSON.stringify(error))})
       }
