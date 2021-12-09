@@ -117,7 +117,7 @@ export default function informacoes({navigation, route}){
                 </View>
               
                 <View style={{flexDirection:"row"}}>
-                  <View style={{flex:0.2}}>
+                  <View style={{flex:0.3}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Numero"

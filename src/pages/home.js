@@ -7,9 +7,8 @@ import { useState } from "react/cjs/react.development";
 
 
 
-export default function Home({navigation}){
 
-  
+export default function Home({navigation}){
 
     useEffect(()=>{
         const storage = async() => {
@@ -35,31 +34,19 @@ export default function Home({navigation}){
         });
     }
 
-    const Logout = async() =>{
-
-        await AsyncStorage.removeItem("idUserSession")
-
-        navigation.reset({
-          index: 0,
-          routes: [{name: "Login"}]
-        });
-      }
+    
     
 
     return(
+        
         <KeyboardAvoidingView style={styles.background}>
             <View style={{paddingTop: 50, marginTop: 50}}>
                 <Notificacao />
             </View>
-            <TouchableOpacity onPress={acao} style={styles.btnSubmit}>
-                <Text style={styles.textSubmit}>Ação</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={Logout} style={styles.btnSubmit, {backgroundColor: "#DEB887"}}>
-                <Text style={styles.textSubmit}>Logout</Text>
-            </TouchableOpacity>
-
-        
         </KeyboardAvoidingView>
+        
+        
+        
     );
 }
 

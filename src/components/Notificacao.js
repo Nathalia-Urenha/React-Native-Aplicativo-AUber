@@ -17,6 +17,8 @@ export default function Notificacao() {
     
     const [id, setId] = useState(null)
 
+    
+
     //aq tem q ser o id do passeio 
     const atualizarStatus = async() => {
         
@@ -37,6 +39,7 @@ export default function Notificacao() {
         const storage = async() => {
 
             const idGet = await AsyncStorage.getItem("idUserSession");
+            
 
             api.get(`/passeios/ativos/dono/${idGet}`).then((response)=>{
             const statusAtual = (response.data[Number((response.data).length) - 1].status)
@@ -86,7 +89,9 @@ export default function Notificacao() {
                             </TouchableOpacity>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.btnPagar} onPress={atualizarStatus}>
+                <TouchableOpacity 
+                    style={styles.title}
+                    onPress={atualizarStatus}>
                     <Text style={styles.title}>{paguei}</Text>
                 </TouchableOpacity>
             </View>
@@ -110,7 +115,9 @@ card: {
   title:{
     color: '#000',
     fontSize: 25,
-  },
+    alignItems: "center",
+    
+  }, 
   containerLogo:{
       flex:1,
       justifyContent: 'center',
@@ -128,14 +135,5 @@ card: {
         paddingLeft: 30,
         paddingRight: 30,
       },
-      btnPagar:{
-        marginTop: 30,
-        width: '100%',
-        height: 45,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 7,
-        paddingLeft: 30,
-        paddingRight: 30,
-      },
+     
 });

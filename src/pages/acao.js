@@ -46,9 +46,6 @@ export default function Acao({navigation}){
                 onPress={passear}>
                     <Text style={styles.textRegister}>Passear</Text>
                 </TouchableOpacity>
-                <Pressable onPress={home}>
-                    <Text style={styles.texto}>Voltar para a página inicial</Text>
-                </Pressable>
                     
             </View>
         </KeyboardAvoidingView>
@@ -112,7 +109,8 @@ const styles = StyleSheet.create({
       },
       title:{
         color: '#fe76a8',
-        fontSize: 40
+        fontSize: 40,
+        
       },
       texto:{
         color: "#000",

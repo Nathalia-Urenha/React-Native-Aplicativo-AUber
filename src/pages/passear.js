@@ -22,7 +22,9 @@ export default function Passear({navigation}){
     return(
         <KeyboardAvoidingView style={styles.background}>
             <View style={styles.containerLogo}>
-                <Text style={styles.title}>Passeios Disponíveis</Text>
+            <TouchableOpacity disabled style={styles.btnSubmit}>
+                    <Text style={styles.textSubmit}>Passeios Disponíveis</Text>
+            </TouchableOpacity>
             </View>
             <View style={styles.container}>
                 <ScrollView>
@@ -32,7 +34,9 @@ export default function Passear({navigation}){
                 </ScrollView>
             </View>
             <View style={styles.containerLogo}>
-                <Text style={styles.title}>Meus Passeios</Text>
+                <TouchableOpacity disabled style={styles.btnSubmit}>
+                    <Text style={styles.textSubmit}>Meus Passeios</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.container}>
                 <ScrollView>
@@ -78,5 +82,17 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 15,
         padding: 20
+      },
+      btnSubmit:{
+        backgroundColor: "#fe76a8",
+        width: 380,
+        height: 45,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 7,
+      },
+      textSubmit:{
+        color:"#FFF",
+        fontSize: 35
       }
 });

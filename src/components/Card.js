@@ -28,15 +28,15 @@ export default function Card() {
                         <TouchableOpacity style={styles.card} key={index} onPress={() => navigation.navigate('Informacoes', {idCachorro: item._id})}>
                             <View style={{flex: 1, justifyContent: 'center'}} >
                                 <Text style={styles.title}>Nome</Text>
-                                <Text>{item.nomeCachorro}</Text>
+                                <Text style={styles.info}>{item.nomeCachorro}</Text>
                             </View>
                             <View style={{flex: 1, justifyContent: 'center'}} >
                                 <Text style={styles.title}>Porte</Text>
-                                <Text>{item.porteCachorro}</Text>
+                                <Text style={styles.info}>{item.porteCachorro}</Text>
                                 </View>
                             <View style={{flex: 1, justifyContent: 'center',}}>
                                 <Text style={styles.title}>Tempo</Text>
-                                <Text>{`${item.tempoPasseio} minutos`}</Text>
+                                <Text style={styles.info}>{`${item.tempoPasseio} minutos`}</Text>
                             </View>
                     </TouchableOpacity>
                     );
@@ -71,7 +71,11 @@ const styles = StyleSheet.create({
   },
   title:{
     color: '#fe76a8',
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: "bold"
+  },
+  info:{
+    color: "#000", 
+    fontSize: 17
   }
 });

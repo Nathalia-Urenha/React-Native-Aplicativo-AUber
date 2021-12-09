@@ -23,6 +23,16 @@ export default function perfil({navigation}){
     });
   }
 
+  const Logout = async() =>{
+
+    await AsyncStorage.removeItem("idUserSession")
+
+    navigation.reset({
+      index: 0,
+      routes: [{name: "Login"}]
+    });
+  }
+
     const [usuarios, setUsuarios] = useState([]);
 
     useEffect(()=>{
@@ -59,7 +69,7 @@ export default function perfil({navigation}){
                     keyboardType="email-address"
                 />
                  <View style={{flexDirection:"row"}}>
-                  <View style={{flex:1}}>
+                  <View style={{flex:0.5}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Cep"
@@ -79,7 +89,7 @@ export default function perfil({navigation}){
                   </View>
                 </View>
                 <View style={{flexDirection:"row"}}>
-                  <View style={{flex:0.2}}>
+                  <View style={{flex:0.3}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-start',},]}
                           placeholder="Numero"
@@ -105,7 +115,7 @@ export default function perfil({navigation}){
                           value={usuarios.localidade}
                       />
                   </View>
-                  <View style={{flex:1}}>
+                  <View style={{flex:0.2}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
                           placeholder="UF"
@@ -115,9 +125,9 @@ export default function perfil({navigation}){
                       />
                   </View>
                 </View>
-              <Pressable onPress={home}>
-                <Text style={styles.texto}>Voltar para a página inicial</Text>
-              </Pressable>
+                <TouchableOpacity onPress={Logout} style={styles.btnSubmit, {backgroundColor: "#DEB887"}}>
+                    <Text style={styles.textSubmit}>Logout</Text>
+                </TouchableOpacity>
             </View>
             </KeyboardAvoidingView>
    );
@@ -155,7 +165,7 @@ const styles = StyleSheet.create({
       borderRadius: 7,
     },
     textSubmit:{
-      color:"#FFF",
+      color:"#000",
       fontSize: 18
     },
     btnRegister:{
@@ -180,5 +190,6 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 15,
         padding: 20
-      }
+      },
+      
   });
