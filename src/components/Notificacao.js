@@ -13,7 +13,7 @@ export default function Notificacao() {
     
     const [valor, setValor] = useState("");
     const [pagamento, setPagamento] = useState("");
-    const [paguei, setPaguei] = useState("");
+    const [paguei, setPaguei] = useState(null);
     
     const [id, setId] = useState(null)
 
@@ -29,7 +29,7 @@ export default function Notificacao() {
             
             setMensagem("Bem-Vindo!")
             setPagamento("")
-            setPaguei("")
+            setPaguei(null)
             
         }).catch((error)=>{console.log(JSON.stringify(error))})
     }
@@ -89,11 +89,9 @@ export default function Notificacao() {
                             </TouchableOpacity>
                     </View>
                 </View>
-                <TouchableOpacity 
-                    style={styles.title}
-                    onPress={atualizarStatus}>
-                    <Text style={styles.title}>{paguei}</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={atualizarStatus} style={[styles.btnSubmit, {backgroundColor: (paguei === null ? '#FFE4E1' : '#fe76a8')}]}>
+                        <Text style={styles.title}>{paguei}</Text>
+                    </TouchableOpacity>
             </View>
     )
 }

@@ -23,7 +23,15 @@ export default function Cadastro({navigation}){
   const [Bairro, setBairro] = useState(null)
   const [Localidade, setLocalidade] = useState(null)
   const [UF, setUF] = useState(null)
-  
+  const [nomeBorder, setNomeBorder] = useState('black')
+  const [emailBorder, setEmailBorder] = useState('black')
+  const [passwordBorder, setPasswordBorder] = useState('black')
+  const [cepBorder, setCepBorder] = useState('black')
+  const [LogradouroBorder, setLogradouroBorder] = useState('black')
+  const [NumeroBorder, setNumeroBorder] = useState('black')
+  const [BairroBorder, setBairroBorder] = useState('black')
+  const [LocalidadeBorder, setLocalidadeBorder] = useState('black')
+  const [UFBorder, setUFBorder] = useState('black')
 
   async function chamarCep(cep){
     let url = `https://viacep.com.br/ws/${cep}/json/`;
@@ -52,10 +60,38 @@ export default function Cadastro({navigation}){
       "uf": UF
 
     }
+    if(nome === null) {
+      setNomeBorder('red')
+    }
+    if(email === null) {
+      setEmailBorder('red')
+    }
+    if(password === null) {
+      setPasswordBorder('red')
+    }
+    if(Logradouro === null) {
+      setLogradouroBorder('red')
+    }
+    if(Numero === 0) {
+      setNumeroBorder('red')
+    }
+    if(Bairro === null) {
+      setBairroBorder('red')
+    }
+    if(cep === null) {
+      setCepBorder('red')
+    }
+    if(Localidade === null) {
+      setLocalidadeBorder('red')
+    }
+    if(UF === null) {
+      setUFBorder('red')
+    }
     api.post("/usuarios", dados).then((response)=>{
        console.log(response.data);
        navigation.navigate('Login');
-   }).catch((error)=>{console.log(JSON.stringify(error))})
+   }).catch((error)=>{
+   })
   }
 
   const Login = () =>{
@@ -73,12 +109,12 @@ export default function Cadastro({navigation}){
             </View>
             <View style={styles.container}>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, {borderColor: nomeBorder}]}
                     placeholder="Nome"
                     onChangeText={value=>setNome(value)}
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, {borderColor: emailBorder}]}
                     placeholder="E-mail"
                     autoCorrect={false}
                     onChangeText={value=>setEmail(value)}
@@ -87,7 +123,7 @@ export default function Cadastro({navigation}){
                  <View style={{flexDirection:"row"}}>
                   <View style={{flex:1}}>
                     <TextInput
-                          style={[styles.input, {justifyContent: 'flex-start',},]}
+                          style={[styles.input, {justifyContent: 'flex-start', borderColor: cepBorder},]}
                           placeholder="Cep"
                           keyboardType='number-pad'
                           autoCorrect={false}
@@ -102,7 +138,7 @@ export default function Cadastro({navigation}){
                   </View>
                   <View style={{flex:1}}>
                     <TextInput
-                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
+                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5, borderColor: LogradouroBorder}]}
                           placeholder="Logradouro"
                           autoCorrect={false}
                           value={Logradouro}
@@ -112,7 +148,7 @@ export default function Cadastro({navigation}){
                 <View style={{flexDirection:"row"}}>
                   <View style={{flex:1}}>
                     <TextInput
-                          style={[styles.input, {justifyContent: 'flex-start',},]}
+                          style={[styles.input, {justifyContent: 'flex-start', borderColor: NumeroBorder},]}
                           placeholder="Numero"
                           autoCorrect={false}
                           onChangeText={value=>setNumero(value)}
@@ -120,7 +156,7 @@ export default function Cadastro({navigation}){
                   </View>
                   <View style={{flex:1}}>
                     <TextInput
-                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
+                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5, borderColor: BairroBorder}]}
                           placeholder="Bairro"
                           autoCorrect={false}
                           value={Bairro}
@@ -130,7 +166,7 @@ export default function Cadastro({navigation}){
                 <View style={{flexDirection:"row"}}>
                   <View style={{flex:1}}>
                     <TextInput
-                          style={[styles.input, {justifyContent: 'flex-start',},]}
+                          style={[styles.input, {justifyContent: 'flex-start', borderColor: LocalidadeBorder},]}
                           placeholder="Cidade"
                           autoCorrect={false}
                           value={Localidade}
@@ -138,7 +174,7 @@ export default function Cadastro({navigation}){
                   </View>
                   <View style={{flex:1}}>
                     <TextInput
-                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5}]}
+                          style={[styles.input, {justifyContent: 'flex-end',}, {marginLeft: 5, borderColor: UFBorder}]}
                           placeholder="UF"
                           autoCorrect={false}
                           value={UF}
@@ -147,7 +183,7 @@ export default function Cadastro({navigation}){
                   </View>
                 </View>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, {borderColor: passwordBorder}]}
                     placeholder="Senha"
                     autoCorrect={false}
                     secureTextEntry={true}
@@ -191,6 +227,7 @@ const styles = StyleSheet.create({
       fontSize: 17,
       borderRadius: 7,
       padding: 10,
+      borderWidth: 1,
     },
     btnSubmit:{
       backgroundColor: "#fe76a8",

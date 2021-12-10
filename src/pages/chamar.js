@@ -107,7 +107,7 @@ export default function Chamar({navigation}){
                         <Text style={styles.textSubmit}>Cadastrar</Text>
                     </TouchableOpacity>
                     <Pressable onPress={home}>
-                        <Text style={styles.texto}>Voltar para a página inicial</Text>
+                      <Text style={styles.texto}>Voltar para a página inicial</Text>
                     </Pressable>
                     
             </View>

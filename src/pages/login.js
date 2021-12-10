@@ -12,10 +12,13 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "../services/api";
+import AwesomeAlert from 'react-native-awesome-alerts';
+
 export default function Login({navigation}) {
 
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
+  const [showAlert, setShowAlert] = useState(false)
 
   const entrar = async() =>{
     const dados = {
@@ -32,7 +35,7 @@ export default function Login({navigation}) {
       storage()
 
       
-    }).catch((error)=>{console.log(JSON.stringify(error))})
+    }).catch((error)=>{setShowAlert(true)})
    }
 
 
@@ -85,6 +88,20 @@ export default function Login({navigation}) {
 
   return(
     <KeyboardAvoidingView style={styles.background}>
+      
+      <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="Ops!"
+          message="Email ou senha incorretos!"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Entendi"
+          confirmButtonColor="#fe76a8"
+          onConfirmPressed={() => setShowAlert(false)}
+          
+        />
       <View style={styles.containerLogo}>
         <Image 
         source={require('../assets/logo.png')}

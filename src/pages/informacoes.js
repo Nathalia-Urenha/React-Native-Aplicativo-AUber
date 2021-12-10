@@ -146,6 +146,7 @@ export default function informacoes({navigation, route}){
                 <TouchableOpacity 
                 style={styles.btnSubmit}
                 onPress={atualizarPasseador}
+                disabled={(estadoBotao === "Finalizado" ? true : false)}
                 >
                     <Text style={styles.textSubmit}>{estadoBotao}</Text>
                 </TouchableOpacity>

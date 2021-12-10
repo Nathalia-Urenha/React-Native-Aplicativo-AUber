@@ -10,6 +10,8 @@ import {
   Pressable
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AwesomeAlert from 'react-native-awesome-alerts';
+
 
 
 import api from "../services/api";
@@ -32,6 +34,8 @@ export default function perfil({ navigation }) {
       routes: [{ name: "Login" }]
     });
   }
+
+  const [showAlert, setShowAlert] = useState(false)
 
   const [usuarios, setUsuarios] = useState([]);
 
@@ -64,6 +68,7 @@ export default function perfil({ navigation }) {
     api.put(`/usuarios/${idGet}`, dados).then((response) => {
       setUsuarios(response.data);
       console.log(response.data);
+      setShowAlert(true)
     }).catch((error) => { console.log(JSON.stringify(error)) })
   }
 
@@ -90,6 +95,19 @@ export default function perfil({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.background}>
+       <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="Eba!"
+          message="Perfil atualizado com sucesso!"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Entendi"
+          confirmButtonColor="#fe76a8"
+          onConfirmPressed={() => setShowAlert(false)}
+          
+        />
       <View style={styles.containerLogo}>
         <Text style={styles.title}>Perfil</Text>
         <Image
@@ -173,12 +191,13 @@ export default function perfil({ navigation }) {
             />
           </View>
         </View>
-        <TouchableOpacity onPress={atualizar} style={styles.btnSubmit, { backgroundColor: "#DEB887" }}>
-          <Text style={styles.textSubmit}>Atualizar Dados</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={Logout} style={styles.btnSubmit, { backgroundColor: "#DEB887" }}>
-          <Text style={styles.textSubmit}>Logout</Text>
-        </TouchableOpacity>
+        <TouchableOpacity style={styles.btnSubmit} onPress={atualizar}>
+                <Text style={styles.textSubmit}>Atualizar Dados</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnRegister} onPress={Logout}>
+                <Text  style={styles.textRegister}>Logout </Text>
+            </TouchableOpacity>
+        
       </View>
     </KeyboardAvoidingView>
   );
@@ -216,14 +235,22 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   textSubmit: {
-    color: "#000",
+    color: "#fff",
     fontSize: 18
   },
-  btnRegister: {
+  btnRegister:{
+    width: '100%',
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 7,
     marginTop: 10,
+    borderTopColor: "#fe76a8",
+    borderColor: "#fe76a8",
+    borderWidth: 1,
   },
-  textRegister: {
-    color: '#fff',
+  textRegister:{
+    color: '#fe76a8',
     fontSize: 15
   },
   title: {
