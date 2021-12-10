@@ -121,7 +121,7 @@ export default function Cadastro({navigation}){
                     keyboardType="email-address"
                 />
                  <View style={{flexDirection:"row"}}>
-                  <View style={{flex:1}}>
+                  <View style={{flex:0.5}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-start', borderColor: cepBorder},]}
                           placeholder="Cep"
@@ -146,7 +146,7 @@ export default function Cadastro({navigation}){
                   </View>
                 </View>
                 <View style={{flexDirection:"row"}}>
-                  <View style={{flex:1}}>
+                  <View style={{flex:0.3}}>
                     <TextInput
                           style={[styles.input, {justifyContent: 'flex-start', borderColor: NumeroBorder},]}
                           placeholder="Numero"
